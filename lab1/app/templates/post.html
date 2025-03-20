@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container p-4">
+        <div>
+            <h1 class="display-4 post-title">{{ post.title }}</h1>
+            <p class="text-muted post-meta">{{ post.author }}, {{ post.date.strftime('%d.%m.%Y') }}</p>
+        </div>
+        
+        <img class="img-fluid mb-4 post-image" src="{{ url_for('static', filename='images/' + post.image_id) }}" alt="{{ post.title }}">
+        <div>
+            <p class="lead post-text">{{ post.text }}</p>
+        </div>
+    
+        <div class="mt-5">
+            <h3 class="mb-4">Оставьте комментарий</h3>
+            <form class="mt-4 comment-form">
+                <div class="mb-3">
+                    <textarea class="form-control comment-textarea" placeholder="Ваш комментарий" rows="4"></textarea>
+                </div>
+                <button class="btn btn-primary comment-submit" type="submit">Отправить</button>
+            </form>
+            {% for comment in post.comments %}
+                <div class="mb-3 p-3 border-start border-3 comment">
+                    <div class="fw-bold comment-author">{{ comment.author }}</div>
+                    <div class="comment-text">{{ comment.text }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
