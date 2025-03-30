@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mt-5 text-center">URL Параметры</h1>
+<div class="row">
+    {% for key, value in parameters %}
+    <p>Ключ: {{ key }}, значение: {{ value }}</p>
+    {% endfor %}
+</div>
+{% endblock %}

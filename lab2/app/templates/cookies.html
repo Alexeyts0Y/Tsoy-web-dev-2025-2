@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="my-5">Куки</h1>
+    <div class="row mb-3">
+        {% if cookie_exists %}
+            <p>Название: {{ name }}, значение: {{ value }}</p>
+        {% else %}
+            <p>Куки не установлен</p>
+        {% endif %}
+    </div>
+{% endblock %}

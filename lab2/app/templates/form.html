@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="my-5">Заголовки</h1>
+    <div class="row mb-3">
+        <form method="POST" action="{{ url_for('form') }}">
+            <div class="mb-3">
+                <label for="first" class="form-label">Первый параметр</label>
+                <input type="text" name="first" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="first" class="form-label">Второй параметр</label>
+                <input type="text" name="second" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="first" class="form-label">Третий параметр</label>
+                <input type="text" name="third" class="form-control">
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </div>
+        </form>
+    </div>
+    <div class="row mb-3">
+        {% for name, value in params %}
+            <p>Название: {{name}}, значение: {{value}}</p>
+        {% endfor %}
+    </div>
+{% endblock %}

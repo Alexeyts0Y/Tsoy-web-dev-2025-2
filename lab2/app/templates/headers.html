@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="my-5">Заголовки</h1>
+    <div class="row mb-3">
+        {% for name, value in headers %}
+            <p>Название: {{name}}, значение: {{value}}</p>
+        {% endfor %}
+    </div>
+{% endblock %}
