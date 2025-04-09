@@ -1,7 +1,6 @@
 from flask import Flask, request, session, render_template, redirect, flash, url_for
 from dotenv import load_dotenv
-from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from lab3.app.user import User
+from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
 
 import os
 
@@ -17,6 +16,11 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 login_manager.login_message = 'Авторизуйтесь для доступа к этой странице'
 login_manager.login_message_category = 'warning'
+
+class User(UserMixin):
+    def __init__(self, user_id, username):
+        self.id = user_id
+        self.username = username
 
 def get_users():
     return [
