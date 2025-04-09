@@ -51,9 +51,6 @@ def counter():
         session['counter'] = 1
     return render_template('counter.html')
 
-if __name__ == "__main__":
-    application.run()
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -82,3 +79,6 @@ def logout():
 @login_required
 def secret():
     return render_template('secret.html')
+
+if __name__ == "__main__":
+    application.run()
