@@ -1,7 +1,7 @@
 from flask import Flask, request, session, render_template, redirect, flash, url_for
 from dotenv import load_dotenv
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-from user import User
+from lab3.app.user import User
 
 import os
 
