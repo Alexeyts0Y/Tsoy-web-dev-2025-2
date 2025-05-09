@@ -27,3 +27,5 @@ class DBConnector:
         if 'db' in g:
             g.db.close()
         g.pop('db', None)
+
+dbConnector = DBConnector()

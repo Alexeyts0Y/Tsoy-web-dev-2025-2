@@ -7,7 +7,7 @@ from .repositories.RoleRepository import RoleRepository
 
 from .utils.validator import *
 
-from app import db
+from .db import dbConnector as db
 
 user_repository = UserRepository(db)
 role_repository = RoleRepository(db)

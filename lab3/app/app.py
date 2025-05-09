@@ -1,13 +1,15 @@
 from flask import Flask, request, session, render_template, redirect, flash, url_for
 from dotenv import load_dotenv
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
+from pathlib import Path
 
 import os
 
 app = Flask(__name__)
 application = app
 
-load_dotenv()
+env_path = Path(__file__).parent / '.env'
+load_dotenv(env_path)
 app.secret_key = os.getenv('SECRET_KEY')
 
 login_manager = LoginManager()
