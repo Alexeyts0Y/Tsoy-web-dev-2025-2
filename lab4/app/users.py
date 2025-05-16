@@ -2,8 +2,8 @@ from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_login import login_required
 import mysql.connector as connector
 
-from .repositories.UserRepository import UserRepository
-from .repositories.RoleRepository import RoleRepository
+from .repositories.user_repository import UserRepository
+from .repositories.role_repository import RoleRepository
 
 from .utils.validator import *
 

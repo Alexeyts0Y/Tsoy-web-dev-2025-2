@@ -7,6 +7,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const button = event.relatedTarget;
         const userId = button.getAttribute('data-user_id');
         const form = document.getElementById('deleteModalForm');
-        form.action = `/users/${userId}/delete`;
+        form.action = `/lab4/users/${userId}/delete`;
     });
 });
