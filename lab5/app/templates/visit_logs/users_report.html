@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mb-3">Отчет по посещениям пользователей</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>№</th>
+            <th>Пользователь</th>
+            <th>Количество посещений</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for stat in stats %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ stat.user }}</td>
+            <td>{{ stat.visit_count }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="3" class="text-center">Данных для отчета пока нет.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div class="mt-3">
+    <a href="{{ url_for('visit_logs.users_report_export_csv') }}" class="btn btn-success">Экспорт в CSV</a>
+</div>
+{% endblock %}
