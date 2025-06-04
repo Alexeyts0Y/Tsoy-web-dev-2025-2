@@ -1,4 +1,4 @@
-from app.models import Course, db
+from ..models import Course, db
 
 class CourseRepository:
     def __init__(self, db):

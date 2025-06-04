@@ -30,3 +30,5 @@ def create_app(test_config=None):
     app.errorhandler(SQLAlchemyError)(handle_sqlalchemy_error)
 
     return app
+
+app = create_app()
