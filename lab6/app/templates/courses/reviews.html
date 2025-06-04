@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% from 'pagination.html' import render_pagination %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <a href="{{ url_for('courses.show', course_id=course.id) }}" class="btn btn-outline-secondary btn-sm">
+            &larr; Назад к курсу "{{ course.name }}"
+        </a>
+    </div>
+
+    <h2 class="mb-3 text-center text-uppercase font-weight-bold">Все отзывы о курсе "{{ course.name }}"</h2>
+    <p class="text-center text-muted">Средняя оценка: <span>★</span> <span>{{ "%.2f" | format(course.rating) }}</span></p>
+
+    <div class="card p-3 mb-4">
+        <form class="row g-3 align-items-end" method="GET" action="{{ url_for('courses.all_reviews', course_id=course.id) }}">
+            <div class="col-md-6">
+                <label for="sort_by" class="form-label">Сортировать по:</label>
+                <select class="form-select" id="sort_by" name="sort_by">
+                    <option value="newest" {% if sort_by == 'newest' %}selected{% endif %}>По новизне</option>
+                    <option value="positive" {% if sort_by == 'positive' %}selected{% endif %}>Сначала положительные</option>
+                    <option value="negative" {% if sort_by == 'negative' %}selected{% endif %}>Сначала отрицательные</option>
+                </select>
+            </div>
+            <div class="col-md-auto">
+                <button type="submit" class="btn btn-primary">Применить</button>
+            </div>
+        </form>
+    </div>
+
+    <section class="all-reviews-list mb-5">
+        {% if reviews %}
+            {% for review in reviews %}
+                <div class="card mb-3">
+                    <div class="card-header d-flex align-items-center">
+                        <h5 class="mb-0">{{ review.user.full_name }}</h5>
+                        <p class="ms-auto mb-0">
+                            Оценка: <span>{{ review.rating }}</span>/5 
+                            <span class="text-muted ms-2">{{ review.created_at.strftime('%d.%m.%Y %H:%M') }}</span>
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ review.text }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <div class="mt-4">
+                {{ render_pagination(pagination, 'courses.all_reviews', {'course_id': course.id, 'sort_by': sort_by}) }}
+            </div>
+
+        {% else %}
+            <p class="text-center text-muted">К сожалению, по вашим критериям нет отзывов об этом курсе.</p>
+        {% endif %}
+    </section>
+
+    <section class="my-review mb-5">
+        <h3 class="mb-3 text-center text-uppercase font-weight-bold">Ваш отзыв</h3>
+        {% if current_user.is_authenticated %}
+            {% if user_review %}
+                <div class="card mb-3 border-primary">
+                    <div class="card-header d-flex align-items-center bg-primary text-white">
+                        <h5 class="mb-0">Ваш отзыв</h5>
+                        <p class="ms-auto mb-0">
+                            Оценка: <span>{{ user_review.rating }}</span>/5 
+                            <span class="text-muted ms-2">{{ user_review.created_at.strftime('%d.%m.%Y %H:%M') }}</span>
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ user_review.text }}</p>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-warning" data-bs-toggle="collapse" data-bs-target="#reviewForm" aria-expanded="false" aria-controls="reviewForm">
+                        Редактировать отзыв
+                    </button>
+                </div>
+            {% endif %}
+            
+            <div id="reviewForm" class="collapse {% if not user_review %}show{% endif %} mt-3">
+                <form method="POST" action="{{ url_for('courses.submit_review', course_id=course.id) }}">
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Оценка</label>
+                        <select class="form-select" id="rating" name="rating" required>
+                            <option value="5" {% if user_review and user_review.rating == 5 %}selected{% elif not user_review %}selected{% endif %}>5 - Отлично</option>
+                            <option value="4" {% if user_review and user_review.rating == 4 %}selected{% endif %}>4 - Хорошо</option>
+                            <option value="3" {% if user_review and user_review.rating == 3 %}selected{% endif %}>3 - Удовлетворительно</option>
+                            <option value="2" {% if user_review and user_review.rating == 2 %}selected{% endif %}>2 - Неудовлетворительно</option>
+                            <option value="1" {% if user_review and user_review.rating == 1 %}selected{% endif %}>1 - Плохо</option>
+                            <option value="0" {% if user_review and user_review.rating == 0 %}selected{% endif %}>0 - Ужасно</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="review_text" class="form-label">Текст отзыва</label>
+                        <textarea class="form-control" id="review_text" name="text" rows="5" required>{{ user_review.text if user_review else '' }}</textarea>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-dark">
+                            {% if user_review %}Сохранить изменения{% else %}Отправить отзыв{% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        {% else %}
+            <p class="text-center text-muted">
+                <a href="{{ url_for('auth.login', next=request.path) }}">Войдите</a>, чтобы оставить отзыв.
+            </p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

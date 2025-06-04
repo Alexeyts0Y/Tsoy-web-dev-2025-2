@@ -8,7 +8,12 @@ class DBConnector:
 
     def init_app(self, app):
         self.app = app
-        self.app.teardown_appcontext(self.disconnect)
+
+        if not hasattr(app, 'extensions'):
+            app.extensions = {}
+        if 'db_connector' not in app.extensions:
+            app.extensions['db_connector'] = self
+            app.teardown_appcontext(self.disconnect)
 
     def _get_config(self):
         return {
@@ -24,8 +29,11 @@ class DBConnector:
         return g.db
     
     def disconnect(self, e=None):
-        if 'db' in g:
-            g.db.close()
-        g.pop('db', None)
+        try:
+            db = g.pop('db', None)
+            if db is not None:
+                db.close()
+        except RuntimeError:
+            pass
 
 dbConnector = DBConnector()

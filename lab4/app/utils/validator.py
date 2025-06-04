@@ -35,5 +35,5 @@ def validate_username(username):
 def validate_name(name, field_name):
     errors = []
     if not name:
-        errors.append(f"{field_name} не может быть пустым")
+        errors.append("Поле не может быть пустым")
     return errors
