@@ -44,7 +44,6 @@ class User(Base, UserMixin):
     password_hash: Mapped[str] = mapped_column(String(200))
     created_at: Mapped[datetime] = mapped_column(default=datetime.now)
 
-    # ВОТ ЭТО ОТНОШЕНИЕ БЫЛО ПРОПУЩЕНО И ТЕПЕРЬ ДОБАВЛЕНО
     reviews: Mapped[list["Review"]] = relationship(back_populates="user")
 
     def set_password(self, password):
@@ -70,8 +69,6 @@ class Course(Base):
     name: Mapped[str] = mapped_column(String(100))
     short_desc: Mapped[str] = mapped_column(Text)
     full_desc: Mapped[str] = mapped_column(Text)
-    # Поля rating_sum и rating_num уже есть, но лучше убедиться, что они nullable=False и имеют default=0
-    # Это изменение потребует миграции для установки default значения для существующих записей
     rating_sum: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     rating_num: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
 

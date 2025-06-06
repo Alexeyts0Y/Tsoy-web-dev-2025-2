@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, abort
-from flask_login import login_required, current_user # Добавлено current_user
+from flask_login import login_required, current_user
 from sqlalchemy.exc import IntegrityError
 
 from .models import db
@@ -143,7 +143,7 @@ def submit_review(course_id):
         flash('Ваш отзыв был успешно обновлен!', 'success')
     else:
         review_repository.add_review(course_id, user_id, rating, text)
-        print('Rating : ', rating)
+        # print('Rating : ', rating)
         course_repository.update_course_rating(course_id, None, rating)
         flash('Ваш отзыв был успешно добавлен!', 'success')
     
